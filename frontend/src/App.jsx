@@ -1,9 +1,11 @@
-import { useState } from 'react'
 
 function App() {
+
   return (
     <>
-      <h1>{`Hello I am Amit :)`}</h1>
+      <div className='flex flex-row justify-between'>
+        <h1 className='text-3xl font-bold underline'>{`Hello I am Amit :)`}</h1>
+      </div>
     </>
   )
 }

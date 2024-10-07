@@ -19,6 +19,6 @@ app.use("/api/v1/authority", authorityRoute)
 
 // middleware
 import errorMiddleware from './middlewares/errorMiddleware.js';
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 export default app

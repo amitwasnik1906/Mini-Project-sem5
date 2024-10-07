@@ -12,5 +12,4 @@ router.route("/submit-abuse-report").post(verifyJWT, submitAbuseReport)
 router.route("/submited-reports/:userId").get(verifyJWT, getSubmitedReports)
 router.route("/report/:reportId").get(verifyJWT, getSingleReport)
 
-
 export default router
