@@ -122,8 +122,8 @@ const logoutAuthority = asyncHandler(async (req, res) => {
 
 // get all reports
 const getAllReports = asyncHandler(async (req, res) => {
-  if(req.user.role !== "authority"){
-    throw new ApiError(404, "Unauthorized access!!")
+  if (req.user.role !== "authority") {
+    throw new ApiError(404, "Unauthorized access!!");
   }
 
   const reports = await Report.find();
@@ -136,8 +136,8 @@ const getAllReports = asyncHandler(async (req, res) => {
 const getSingleReport = asyncHandler(async (req, res) => {
   const { reportId } = req.params;
 
-  if(req.user.role !== "authority"){
-    throw new ApiError(404, "Unauthorized access!!")
+  if (req.user.role !== "authority") {
+    throw new ApiError(404, "Unauthorized access!!");
   }
 
   const report = await Report.findById(reportId);
@@ -153,10 +153,10 @@ const getSingleReport = asyncHandler(async (req, res) => {
 
 const changeReportStatus = asyncHandler(async (req, res) => {
   const { reportId } = req.params;
-  const {newStatus} = req.body;
+  const { newStatus } = req.body;
 
-  if(req.user.role !== "authority"){
-    throw new ApiError(404, "Unauthorized access!!")
+  if (req.user.role !== "authority") {
+    throw new ApiError(404, "Unauthorized access!!");
   }
 
   if (!newStatus) {
@@ -180,6 +180,16 @@ const changeReportStatus = asyncHandler(async (req, res) => {
   });
 });
 
+// get User details
+const getAuthorityDetails = asyncHandler(async (req, res) => {
+  const authority = await Authority.findById(req.user._id).select("-password");;
+
+  res.status(200).json({
+    success: true,
+    authority,
+  });
+});
+
 export {
   registerAuthority,
   loginAuthority,
@@ -187,4 +197,5 @@ export {
   getAllReports,
   getSingleReport,
   changeReportStatus,
+  getAuthorityDetails,
 };
