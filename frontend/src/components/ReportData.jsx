@@ -1,37 +1,32 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 
-// Mock function to simulate fetching the report from a backend or local storage
-const fetchReport = () => {
-  return {
-    victimName: 'John Doe',
-    victimPhone: '555-5678', // Added phone number
-    abuseType: 'Physical Abuse',
-    gender: 'Male',
-    age: 25,
-    victimState: 'California',
-    victimCity: 'Los Angeles',
-    incidentLocation: 'Public Park',
-    incidentState: 'California',
-    incidentCity: 'Los Angeles',
-    incidentDate: '2024-09-23',
-    description: 'A detailed description of the incident that took place at the park.',
-    witnessName: 'Jane Doe',
-    witnessPhone: '555-1234',
-    evidence: 'evidence_file.pdf',
-    consent: true,
-    legalDisclaimer: true,
-    status: 'Under Investigation', // New field for report status
-  };
-};
-
-const ReportData = () => {
+const ReportData = ({user}) => {
   const [reportData, setReportData] = useState(null);
+  const { id } = useParams()
 
-  // Simulate fetching the report data when the component mounts
+  const getReportData = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${user?.refreshToken}`,
+        },
+      };
+
+      const { data } = await axios.get(`http://localhost:4000/api/v1/user/report/${id}`, config);
+      setReportData(data.report)
+    } catch (error) {
+      console.log(error);
+    }
+  } 
+
   useEffect(() => {
-    const report = fetchReport();
-    setReportData(report);
-  }, []);
+    if(user && id){
+      getReportData()
+    }
+  }, [user, id]); 
 
   if (!reportData) {
     return <p className="text-center mt-10">Loading report...</p>;
@@ -49,8 +44,6 @@ const ReportData = () => {
         <p><strong>Type Of Abuse:</strong> {reportData.abuseType}</p>
         <p><strong>Gender:</strong> {reportData.gender}</p>
         <p><strong>Age Of Victim:</strong> {reportData.age}</p>
-        <p><strong>State:</strong> {reportData.victimState}</p>
-        <p><strong>City:</strong> {reportData.victimCity}</p>
       </div>
 
       {/* Incident Info Section */}
@@ -87,7 +80,7 @@ const ReportData = () => {
         <span className={`px-2 py-1 rounded ${reportData.status === 'Resolved' ? 'bg-green-200' : 'bg-yellow-200'}`}>
           {reportData.status}
         </span>
-      </div>  
+      </div>
 
     </div>
   );

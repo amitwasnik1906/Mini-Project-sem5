@@ -44,7 +44,7 @@ function App() {
       const { data } = await axios.get(`http://localhost:4000/api/v1/user/get-user-details`, config);
       // console.log(data.user);
 
-      setUser({ _id: data.user._id, name: data.user.name, refreshToken: data.user.refreshToken, isAuthority})
+      setUser({ _id: data.user._id, name: data.user.name, refreshToken: data.user.refreshToken, isAuthority })
     } catch (error) {
       console.error("Error fetching user details:", error.response ? error.response.data : error.message);
     }
@@ -59,9 +59,9 @@ function App() {
         },
       };
 
-      const {data} = await axios.get("http://localhost:4000/api/v1/authority/check", config)
+      const { data } = await axios.get("http://localhost:4000/api/v1/authority/check", config)
       setIsAuthority(data.isAuhority)
-      
+
     } catch (error) {
       console.log(error);
     }
@@ -93,10 +93,10 @@ function App() {
 
       <Route exact path="/login" element={<Login />} />
       <Route exact path="/signup" element={<Signup />} />
-      
-      <Route exact path="/abuse-report-form" element={<Layout user={user} setUser={setUser} > <AbuseReportForm /> </Layout>} />
-      <Route exact path="/my-reports" element={<Layout user={user} setUser={setUser} > <MyReports /> </Layout>} />
-      <Route exact path="/report/:id" element={<Layout user={user} setUser={setUser} > <Report /> </Layout>} />
+
+      <Route exact path="/abuse-report-form" element={<Layout user={user} setUser={setUser} > <AbuseReportForm user={user} /> </Layout>} />
+      <Route exact path="/my-reports" element={<Layout user={user} setUser={setUser} > <MyReports user={user} /> </Layout>} />
+      <Route exact path="/report/:id" element={<Layout user={user} setUser={setUser} > <Report user={user} /> </Layout>} />
 
       <Route exact path='/authority-all-reports' element={<Layout user={user} setUser={setUser} > <AuthorityAllReports /> </Layout>} />
       <Route exact path='/authority-view-report/:id' element={<Layout user={user} setUser={setUser} > <AuthorityViewReport /> </Layout>} />
