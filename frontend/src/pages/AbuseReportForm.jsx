@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Country, State, City } from 'country-state-city';
+import { State, City } from 'country-state-city';
+import axios from 'axios';
 
-const AbuseReportForm = () => {
+const AbuseReportForm = ({user}) => {
   const [formData, setFormData] = useState({
     victimName: '',
     abuseType: '',
     gender: '',
     age: '',
-    phone: '',
+    phoneNumber: '',
     incidentLocation: '',
     incidentState: '',
     incidentCity: '',
@@ -55,7 +56,7 @@ const AbuseReportForm = () => {
     if (!formData.abuseType) formErrors.abuseType = 'Abuse type is required';
     if (!formData.gender) formErrors.gender = 'Gender is required';
     if (!formData.age) formErrors.age = 'Age is required';
-    if (!formData.phone) formErrors.phone = 'Phone number is required';
+    if (!formData.phoneNumber) formErrors.phoneNumber = 'phoneNumber number is required';
     if (!formData.incidentLocation) formErrors.incidentLocation = 'Incident location is required';
     if (!formData.incidentState) formErrors.incidentState = 'Incident state is required';
     if (!formData.incidentCity) formErrors.incidentCity = 'Incident city is required';
@@ -71,13 +72,37 @@ const AbuseReportForm = () => {
   };
 
   // Handle form submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (validateForm()) {
       console.log(formData);
       try {
-        
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            'Authorization': `Bearer ${user?.refreshToken}`,
+          },
+        };
+
+        const { data } = await axios.post("http://localhost:4000/api/v1/user/submit-abuse-report", formData, config)
+
+        setFormData({
+          victimName: '',
+          abuseType: '',
+          gender: '',
+          age: '',
+          phoneNumber: '',
+          incidentLocation: '',
+          incidentState: '',
+          incidentCity: '',
+          incidentDate: '',
+          description: '',
+          evidence: null,
+          consent: false,
+          legalDisclaimer: false,
+        })
+
       } catch (error) {
         console.log(error);
       }
@@ -151,17 +176,17 @@ const AbuseReportForm = () => {
           {errors.age && <span className="text-red-500">{errors.age}</span>}
         </div>
         <div>
-          <label htmlFor="phone" className="block mb-2">Phone Number</label>
+          <label htmlFor="phoneNumber" className="block mb-2">phoneNumber Number</label>
           <input
             type="text"
-            name="phone"
-            id="phone"
-            value={formData.phone}
+            name="phoneNumber"
+            id="phoneNumber"
+            value={formData.phoneNumber}
             onChange={handleChange}
-            placeholder="Enter phone number"
+            placeholder="Enter phoneNumber number"
             className="p-2 border border-gray-300 rounded w-full"
           />
-          {errors.phone && <span className="text-red-500">{errors.phone}</span>}
+          {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber}</span>}
         </div>
       </div>
 
