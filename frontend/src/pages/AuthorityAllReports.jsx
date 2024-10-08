@@ -1,54 +1,37 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const AuthorityAllReports = () => {
+const AuthorityAllReports = ({ user }) => {
   const [reports, setReports] = useState([]);
+  const navigate = useNavigate(); // React Router's useNavigate hook to navigate to other pages
 
-  // Fetch all reports when the component mounts
+  const getAllReports = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${user?.refreshToken}`,
+        },
+      };
+
+      const { data } = await axios.get(`http://localhost:4000/api/v1/authority/all-reports`, config);
+      setReports(data.reports);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    // Simulate fetching data with dummy reports
-    const dummyReports = [
-      {
-        id: 1,
-        name: 'John Doe',
-        abuseType: 'Physical Abuse',
-        incidentDate: '2024-09-21',
-        incidentLocation: 'Public Park',
-        status: 'Under Investigation',
-        createdAt: '2024-09-23 10:30 AM',
-      },
-      {
-        id: 2,
-        name: 'Jane Smith',
-        abuseType: 'Verbal Abuse',
-        incidentDate: '2024-09-15',
-        incidentLocation: 'Office',
-        status: 'Resolved',
-        createdAt: '2024-09-15 02:15 PM',
-      },
-      {
-        id: 3,
-        name: 'Alice Johnson',
-        abuseType: 'Cyberbullying',
-        incidentDate: '2024-09-18',
-        incidentLocation: 'Social Media',
-        status: 'Pending',
-        createdAt: '2024-09-18 05:45 PM',
-      },
-      {
-        id: 4,
-        name: 'Michael Brown',
-        abuseType: 'Emotional Abuse',
-        incidentDate: '2024-09-19',
-        incidentLocation: 'School',
-        status: 'Under Investigation',
-        createdAt: '2024-09-19 08:30 AM',
-      },
-    ];
+    if (user) {
+      getAllReports();
+    }
+  }, [user]);
 
-    // Setting the dummy data into state
-    setReports(dummyReports);
-  }, []);
+  const handleViewReport = (reportId) => {
+    // Navigate to a detailed page for the report
+    navigate(`/authority/report/${reportId}`);
+  };
 
   return (
     <div className="max-w-6xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
@@ -64,15 +47,16 @@ const AuthorityAllReports = () => {
               <th className="px-4 py-2">Incident Location</th>
               <th className="px-4 py-2">Status</th>
               <th className="px-4 py-2">Created At</th>
+              <th className="px-4 py-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {reports.length > 0 ? (
               reports.map((report) => (
-                <tr key={report.id} className="border-b" >
-                  <td className="px-4 py-2">{report.name}</td>
+                <tr key={report._id} className="border-b">
+                  <td className="px-4 py-2">{report.victimName}</td>
                   <td className="px-4 py-2">{report.abuseType}</td>
-                  <td className="px-4 py-2">{report.incidentDate}</td>
+                  <td className="px-4 py-2">{new Date(report.incidentDate).toLocaleDateString()}</td>
                   <td className="px-4 py-2">{report.incidentLocation}</td>
                   <td className="px-4 py-2">
                     <span
@@ -86,12 +70,20 @@ const AuthorityAllReports = () => {
                       {report.status}
                     </span>
                   </td>
-                  <td className="px-4 py-2">{report.createdAt}</td>
+                  <td className="px-4 py-2">{new Date(report.createdAt).toLocaleDateString()}</td>
+                  <td className="px-4 py-2">
+                    <button
+                      onClick={() => handleViewReport(report._id)}
+                      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                    >
+                      View
+                    </button>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="6" className="text-center py-4">
+                <td colSpan="7" className="text-center py-4">
                   No reports found.
                 </td>
               </tr>

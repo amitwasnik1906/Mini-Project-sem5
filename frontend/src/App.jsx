@@ -12,6 +12,8 @@ import AuthorityViewReport from './pages/AuthorityViewReport';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import AuthorityLogin from './pages/AuthorityLogin';
+import AuthoritySignup from './pages/AuthoritySignup';
 
 const Layout = ({ children, user, setUser }) => {
   return (
@@ -42,9 +44,25 @@ function App() {
       };
 
       const { data } = await axios.get(`http://localhost:4000/api/v1/user/get-user-details`, config);
-      // console.log(data.user);
 
       setUser({ _id: data.user._id, name: data.user.name, refreshToken: data.user.refreshToken, isAuthority })
+    } catch (error) {
+      console.error("Error fetching user details:", error.response ? error.response.data : error.message);
+    }
+  };
+
+  const getAuthorityDetails = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${refreshToken}`,
+        },
+      };
+
+      const { data } = await axios.get(`http://localhost:4000/api/v1/authority/get-authority-details`, config);
+
+      setUser({ _id: data.authority._id, name: data.authority.name, refreshToken: data.authority.refreshToken, isAuthority })
     } catch (error) {
       console.error("Error fetching user details:", error.response ? error.response.data : error.message);
     }
@@ -76,8 +94,11 @@ function App() {
   }, [token]);
 
   useEffect(() => {
-    if (refreshToken) {
+    if (refreshToken && isAuthority == false) {
       getUserDetails();
+    }
+    if (refreshToken && isAuthority == true) {
+      getAuthorityDetails();
     }
   }, [refreshToken, isAuthority]);
 
@@ -94,12 +115,15 @@ function App() {
       <Route exact path="/login" element={<Login />} />
       <Route exact path="/signup" element={<Signup />} />
 
+      <Route exact path="/authority/login" element={<AuthorityLogin />} />
+      <Route exact path="/authority/signup" element={<AuthoritySignup />} />
+
       <Route exact path="/abuse-report-form" element={<Layout user={user} setUser={setUser} > <AbuseReportForm user={user} /> </Layout>} />
       <Route exact path="/my-reports" element={<Layout user={user} setUser={setUser} > <MyReports user={user} /> </Layout>} />
       <Route exact path="/report/:id" element={<Layout user={user} setUser={setUser} > <Report user={user} /> </Layout>} />
 
-      <Route exact path='/authority-all-reports' element={<Layout user={user} setUser={setUser} > <AuthorityAllReports /> </Layout>} />
-      <Route exact path='/authority-view-report/:id' element={<Layout user={user} setUser={setUser} > <AuthorityViewReport /> </Layout>} />
+      <Route exact path='/authority-all-reports' element={<Layout user={user} setUser={setUser} > <AuthorityAllReports user={user}/> </Layout>} />
+      <Route exact path='/authority/report/:id' element={<Layout user={user} setUser={setUser} > <AuthorityViewReport user={user}/> </Layout>} />
 
     </Routes>
   );

@@ -38,14 +38,19 @@ function Header({ user, setUser }) {
         <Link to="/" className="hover:text-indigo-400 transition-colors duration-300">
           <span>Home</span>
         </Link>
-        <Link to="/abuse-report-form" className="hover:text-indigo-400 transition-colors duration-300">
-          <span>Submit Report</span>
-        </Link>
-        <Link to="/my-reports" className="hover:text-indigo-400 transition-colors duration-300">
-          <span>My Report</span>
-        </Link>
         {
-          user?.isAuhority &&
+          !user?.isAuthority &&
+          <>
+            <Link to="/abuse-report-form" className="hover:text-indigo-400 transition-colors duration-300">
+              <span>Submit Report</span>
+            </Link>
+            <Link to="/my-reports" className="hover:text-indigo-400 transition-colors duration-300">
+              <span>My Report</span>
+            </Link>
+          </>
+        }
+        {
+          user?.isAuthority &&
           <Link to="/authority-all-reports" className="hover:text-indigo-400 transition-colors duration-300">
             <span>All Reports</span>
           </Link>
