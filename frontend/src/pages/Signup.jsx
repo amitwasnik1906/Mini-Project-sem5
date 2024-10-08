@@ -85,7 +85,7 @@ function Signup() {
   return (
     <div className="flex justify-center items-center h-screen">
       <form className="bg-white p-8 rounded-lg shadow-lg w-1/3">
-        <h2 className="text-2xl mb-6 font-semibold text-center">Signup</h2>
+        <h2 className="text-2xl mb-6 font-semibold text-center">User Signup</h2>
 
         <input
           type="text"

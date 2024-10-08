@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-const ReportData = ({user}) => {
+const ReportData = ({ user }) => {
   const [reportData, setReportData] = useState(null);
   const { id } = useParams()
 
@@ -20,13 +20,33 @@ const ReportData = ({user}) => {
     } catch (error) {
       console.log(error);
     }
-  } 
+  }
+
+  const getReportDataByAuthority = async () => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${user?.refreshToken}`,
+        },
+      };
+
+      const { data } = await axios.get(`http://localhost:4000/api/v1/authority/report/${id}`, config);
+      setReportData(data.report)
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
-    if(user && id){
+    if (user && id && user.isAuthority == false) {
       getReportData()
     }
-  }, [user, id]); 
+    if (user && id && user.isAuthority == true) {
+      getReportDataByAuthority()
+    }
+
+  }, [user, id]);
 
   if (!reportData) {
     return <p className="text-center mt-10">Loading report...</p>;

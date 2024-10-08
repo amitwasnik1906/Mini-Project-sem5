@@ -37,61 +37,66 @@ const MyReports = ({ user }) => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-      <h1 className="text-2xl font-bold mb-6 text-center">My Reports</h1>
+    <>
+      {
+        !user ? <div className="flex items-center justify-center min-h-screen">
+          <h1 className="text-xl font-bold text-gray-700">Please sign in to access this page</h1>
+        </div> :
+          <div className="max-w-6xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
+            <h1 className="text-2xl font-bold mb-6 text-center">My Reports</h1>
 
-      <div className="overflow-x-auto">
-        <table className="table-auto w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-gray-200 text-gray-700">
-              <th className="w-1/5 px-4 py-2">Name</th>
-              <th className="w-1/5 px-4 py-2">Abuse Type</th>
-              <th className="w-2/5 px-4 py-2">Incident Location</th>
-              <th className="w-1/5 px-4 py-2">Status</th>
-              <th className="w-1/5 px-4 py-2">Timestamp</th>
-              <th className="w-1/5 px-4 py-2 text-center">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {reports.length > 0 ? (
-              reports.map((report) => (
-                <tr key={report._id} className="border-b hover:bg-gray-100">
-                  <td className="px-4 py-2">{report.victimName}</td>
-                  <td className="px-4 py-2">{report.abuseType}</td>
-                  <td className="px-4 py-2">{report.incidentLocation}</td>
-                  <td className="px-4 py-2">
-                    <span
-                      className={`px-2 py-1 rounded ${
-                        report.status === 'Resolved'
-                          ? 'bg-green-200 text-green-800'
-                          : report.status === 'Under Investigation'
-                          ? 'bg-yellow-200 text-yellow-800'
-                          : 'bg-red-200 text-red-800'
-                      }`}
-                    >
-                      {report.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-2">{report.incidentDate.slice(0, 10)}</td>
-                  <td className="px-4 py-2 text-center">
-                    <button
-                      className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700"
-                      onClick={() => handleViewReport(report._id)}
-                    >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="6" className="text-center py-4">No reports found.</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
-    </div>
+            <div className="overflow-x-auto">
+              <table className="table-auto w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-gray-200 text-gray-700">
+                    <th className="w-1/5 px-4 py-2">Name</th>
+                    <th className="w-1/5 px-4 py-2">Abuse Type</th>
+                    <th className="w-2/5 px-4 py-2">Incident Location</th>
+                    <th className="w-1/5 px-4 py-2">Status</th>
+                    <th className="w-1/5 px-4 py-2">Timestamp</th>
+                    <th className="w-1/5 px-4 py-2 text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reports.length > 0 ? (
+                    reports.map((report) => (
+                      <tr key={report._id} className="border-b hover:bg-gray-100">
+                        <td className="px-4 py-2">{report.victimName}</td>
+                        <td className="px-4 py-2">{report.abuseType}</td>
+                        <td className="px-4 py-2">{report.incidentLocation}</td>
+                        <td className="px-4 py-2">
+                          <span
+                            className={`px-2 py-1 rounded ${report.status === 'Resolved'
+                              ? 'bg-green-200 text-green-800'
+                              : report.status === 'Under Investigation'
+                                ? 'bg-yellow-200 text-yellow-800'
+                                : 'bg-red-200 text-red-800'
+                              }`}
+                          >
+                            {report.status}
+                          </span>
+                        </td>
+                        <td className="px-4 py-2">{new Date(report.incidentDate).toLocaleDateString()}</td>
+                        <td className="px-4 py-2 text-center">
+                          <button
+                            className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700"
+                            onClick={() => handleViewReport(report._id)}
+                          >
+                            View
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="6" className="text-center py-4">No reports found.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+      } </>
   );
 };
 

@@ -1,10 +1,10 @@
 import React from 'react'
 import ReportData from '../components/Reportdata'
 
-function AuthorityViewReport() {
+function AuthorityViewReport({ user }) {
   return (
     <div>
-      <ReportData/>
+      <ReportData user={user} />
     </div>
   )
 }
