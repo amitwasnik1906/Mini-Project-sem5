@@ -182,13 +182,25 @@ const changeReportStatus = asyncHandler(async (req, res) => {
 
 // get User details
 const getAuthorityDetails = asyncHandler(async (req, res) => {
-  const authority = await Authority.findById(req.user._id).select("-password");;
+  const authority = await Authority.findById(req.user._id).select("-password");
 
   res.status(200).json({
     success: true,
     authority,
   });
 });
+
+// Check is it Authority or not
+const checkAuthority = asyncHandler(async (req, res) => {
+  const authority = await Authority.findById(req.user._id).select("-password");
+
+  const check = authority != null
+
+  res.status(200).json({
+    success: true,
+    isAuhority: check,
+  });
+})
 
 export {
   registerAuthority,
@@ -198,4 +210,5 @@ export {
   getSingleReport,
   changeReportStatus,
   getAuthorityDetails,
+  checkAuthority
 };

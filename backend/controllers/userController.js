@@ -132,7 +132,6 @@ const submitAbuseReport = asyncHandler(async (req, res) => {
     incidentState,
     incidentDate,
     description,
-    evidence,
   } = req.body;
 
   const userId = req.user._id;
@@ -148,7 +147,6 @@ const submitAbuseReport = asyncHandler(async (req, res) => {
     incidentState,
     incidentDate,
     description,
-    evidence,
     userId,
   });
 
