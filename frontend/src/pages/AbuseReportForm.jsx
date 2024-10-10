@@ -102,7 +102,7 @@ const AbuseReportForm = ({ user }) => {
           consent: false,
           legalDisclaimer: false,
         })
-
+        alert("Form Submitted Successfully");
       } catch (error) {
         console.log(error);
       }
@@ -184,7 +184,7 @@ const AbuseReportForm = ({ user }) => {
                 {errors.age && <span className="text-red-500">{errors.age}</span>}
               </div>
               <div>
-                <label htmlFor="phoneNumber" className="block mb-2">phoneNumber Number</label>
+                <label htmlFor="phoneNumber" className="block mb-2">Phone Number</label>
                 <input
                   type="text"
                   name="phoneNumber"

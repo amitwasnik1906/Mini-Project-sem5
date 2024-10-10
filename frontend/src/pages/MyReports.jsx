@@ -53,7 +53,7 @@ const MyReports = ({ user }) => {
                     <th className="w-1/5 px-4 py-2">Abuse Type</th>
                     <th className="w-2/5 px-4 py-2">Incident Location</th>
                     <th className="w-1/5 px-4 py-2">Status</th>
-                    <th className="w-1/5 px-4 py-2">Timestamp</th>
+                    <th className="w-1/5 px-4 py-2">Date</th>
                     <th className="w-1/5 px-4 py-2 text-center">Actions</th>
                   </tr>
                 </thead>
