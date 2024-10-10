@@ -76,7 +76,7 @@ function Signup() {
         city: '',
         state: '',
       })
-      
+      alert("User Register Successfully")
     } catch (error) {
       console.log(error);
     }
