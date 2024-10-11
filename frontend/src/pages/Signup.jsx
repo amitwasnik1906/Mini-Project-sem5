@@ -51,7 +51,6 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    console.log(formData);
 
     const config = {
       headers: { "Content-Type": "application/json" },
@@ -78,7 +77,7 @@ function Signup() {
       })
       alert("User Register Successfully")
     } catch (error) {
-      console.log(error);
+      alert(error.response.data.message)
     }
   }
 

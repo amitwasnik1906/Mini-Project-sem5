@@ -14,6 +14,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import AuthorityLogin from './pages/AuthorityLogin';
 import AuthoritySignup from './pages/AuthoritySignup';
+import NotFound from './pages/NotFound';
 
 const Layout = ({ children, user, setUser }) => {
   return (
@@ -131,8 +132,11 @@ function App() {
         <Route exact path="/report/:id" element={<Layout user={user} setUser={setUser} > <Report user={user} /> </Layout>} />
       }
 
+
       <Route exact path='/authority-all-reports' element={<Layout user={user} setUser={setUser} > <AuthorityAllReports user={user} /> </Layout>} />
       <Route exact path='/authority/report/:id' element={<Layout user={user} setUser={setUser} > <AuthorityViewReport user={user} /> </Layout>} />
+
+      <Route path="*" element={<Layout user={user} setUser={setUser} > <NotFound /></Layout>}/>
 
     </Routes>
   );

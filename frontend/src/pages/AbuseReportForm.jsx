@@ -104,10 +104,10 @@ const AbuseReportForm = ({ user }) => {
         })
         alert("Form Submitted Successfully");
       } catch (error) {
-        console.log(error);
+        alert(error.response.data.message)
       }
     } else {
-      console.log('Form validation failed');
+      alert("Form validation failed")
     }
   };
 
