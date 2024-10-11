@@ -16,7 +16,6 @@ const MyReports = ({ user }) => {
       };
 
       const { data } = await axios.get(`http://localhost:4000/api/v1/user/submited-reports/${user?._id}`, config);
-      console.log(data);
 
       setReports(data.reports);
 

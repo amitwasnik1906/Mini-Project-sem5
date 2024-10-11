@@ -24,7 +24,7 @@ function AuthorityLogin() {
             Cookies.set('refreshToken', refreshToken, { expires: 7 });
             navigate("/")
         } catch (error) {
-            console.log(error);
+            alert(error.response.data.message)
         }
 
     };
