@@ -118,12 +118,21 @@ function App() {
       <Route exact path="/authority/login" element={<AuthorityLogin />} />
       <Route exact path="/authority/signup" element={<AuthoritySignup />} />
 
-      <Route exact path="/abuse-report-form" element={<Layout user={user} setUser={setUser} > <AbuseReportForm user={user} /> </Layout>} />
-      <Route exact path="/my-reports" element={<Layout user={user} setUser={setUser} > <MyReports user={user} /> </Layout>} />
-      <Route exact path="/report/:id" element={<Layout user={user} setUser={setUser} > <Report user={user} /> </Layout>} />
+      {
+        isAuthority !== true &&
+        <Route exact path="/abuse-report-form" element={<Layout user={user} setUser={setUser} > <AbuseReportForm user={user} /> </Layout>} />
+      }
+      {
+        isAuthority != true &&
+        <Route exact path="/my-reports" element={<Layout user={user} setUser={setUser} > <MyReports user={user} /> </Layout>} />
+      }
+      {
+        isAuthority != true &&
+        <Route exact path="/report/:id" element={<Layout user={user} setUser={setUser} > <Report user={user} /> </Layout>} />
+      }
 
-      <Route exact path='/authority-all-reports' element={<Layout user={user} setUser={setUser} > <AuthorityAllReports user={user}/> </Layout>} />
-      <Route exact path='/authority/report/:id' element={<Layout user={user} setUser={setUser} > <AuthorityViewReport user={user}/> </Layout>} />
+      <Route exact path='/authority-all-reports' element={<Layout user={user} setUser={setUser} > <AuthorityAllReports user={user} /> </Layout>} />
+      <Route exact path='/authority/report/:id' element={<Layout user={user} setUser={setUser} > <AuthorityViewReport user={user} /> </Layout>} />
 
     </Routes>
   );
