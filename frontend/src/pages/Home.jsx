@@ -43,18 +43,20 @@ const HomePage = () => {
         initial="hidden"
         animate="visible"
         variants={fadeIn}
-        className="relative flex flex-col items-center justify-center w-full min-h-screen px-4 text-center text-white bg-gradient-to-r from-blue-600 to-indigo-700"
+        className="relative flex flex-col items-center justify-center w-full pb-4 min-h-screen text-center text-white bg-gradient-to-r from-blue-600 to-indigo-700"
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
-        <div className="relative z-10 w-100 mx-auto">
-          <motion.img
-            src="miniproject.jpg"
-            alt="Hands joined together in unity"
-            className="object-cover w-full h-64 mb-8 rounded-lg shadow-2xl"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-          />
+        <div className="relative z-10 w-full mx-auto">
+          <div className='w-full h-3/6 flex justify-center mt-5'>
+            <motion.img
+              src="miniproject.jpg"
+              alt="Hands joined together in unity"
+              className="object-cover w-8/12 h-3/3 mb-8 rounded-lg shadow-2xl"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            />
+          </div>
           <motion.h1 className="mb-4 text-5xl font-bold leading-tight" variants={fadeIn}>
             Break the Silence, Secure the Future
           </motion.h1>
@@ -136,7 +138,7 @@ const HomePage = () => {
           >
             <h4 className="mb-2 text-lg font-semibold">Speak Without Fear</h4>
             <p className="text-sm text-gray-600">
-              
+              Raise your voice, break the silence, and stand strong against injustice — your courage can create change.
             </p>
           </motion.div>
         )}
