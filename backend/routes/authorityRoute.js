@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { changeReportStatus, checkAuthority, getAllReports, getAuthorityDetails, getSingleReport, loginAuthority, logoutAuthority, registerAuthority} from "../controllers/authorityController.js";
+import { changeReportStatus, checkAuthority, getAllReports, getAuthorityDetails, getSingleReport, getUpdatesAndCommits, giveUpdatesOnReport, loginAuthority, logoutAuthority, registerAuthority} from "../controllers/authorityController.js";
 import { verifyJWT } from "../middlewares/authMiddleware.js";
 
 const router = Router();
@@ -14,5 +14,8 @@ router.route("/report-change-status/:reportId").put(verifyJWT, changeReportStatu
 
 router.route("/get-authority-details").get(verifyJWT, getAuthorityDetails)
 router.route("/check").get(verifyJWT, checkAuthority)
+
+router.route("/give-updates").post(verifyJWT, giveUpdatesOnReport)
+router.route("/get-updates-and-commits/:reportId").get(verifyJWT, getUpdatesAndCommits)
 
 export default router
