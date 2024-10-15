@@ -11,6 +11,7 @@ const reportSchema = new mongoose.Schema(
     phoneNumber: {
       type: String,
       required: [true, "Please Enter Phone number"],
+      length: [10, "Phone Number should be 10 digit"]
     },
     abuseType: {
       type: String,
@@ -58,6 +59,10 @@ const reportSchema = new mongoose.Schema(
       ref: "User",
       required: [true, "Please provide userId"],
     },
+    seen:{
+      type: Boolean,
+      default: false
+    }
   },
   {
     timestamps: true,

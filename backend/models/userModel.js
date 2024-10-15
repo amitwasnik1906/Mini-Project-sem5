@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please Enter Your Phone Number"],
       unique: true,
+      length: [10, "Phone Number should be 10 digit"]
     },
     password: {
       type: String,

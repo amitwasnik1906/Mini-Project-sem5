@@ -2,6 +2,7 @@ import { User } from "../models/userModel.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import { Report } from "../models/reportModel.js";
+import { Updates } from "../models/updatesModel.js";
 
 const generateRefreshToken = async (userId) => {
   try {
@@ -199,12 +200,57 @@ const getSingleReport = asyncHandler(async (req, res) => {
 
 // get User details
 const getUserDetails = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id).select("-password");;
+  const user = await User.findById(req.user._id).select("-password");
 
   res.status(200).json({
     success: true,
     user,
   });
+});
+
+// give Updates on report
+const giveCommitOnReport = asyncHandler(async (req, res) => {
+  const { reportId, msg } = req.body;
+
+  const report = await Report.findById(reportId);
+
+  if (!report) {
+    throw new ApiError(404, "Report does not exists");
+  }
+
+  if (report.userId.toString() != req.user._id.toString()) {
+    throw new ApiError(404, "Unauthorized access!!");
+  }
+
+  const newCommite = await Updates.create({ reportId, msg, role: "user" });
+
+  res.status(201).json({
+    success: true,
+    newCommite,
+  });
+});
+
+// get updates & commite
+const getUpdatesAndCommits = asyncHandler(async (req, res) => {
+  const { reportId } = req.params;
+
+  const report = await Report.findById(reportId);
+
+  if (!report) {
+    throw new ApiError(404, "Report does not exists");
+  }
+
+  if (report.userId.toString() != req.user._id.toString()) {
+    throw new ApiError(404, "Unauthorized access!!");
+  }
+
+  const updatesAndCommites = await Updates.find({reportId })
+
+  res.status(201).json({
+    success: true,
+    updatesAndCommites,
+  });
+
 });
 
 export {
@@ -215,4 +261,6 @@ export {
   getSubmitedReports,
   getSingleReport,
   getUserDetails,
+  giveCommitOnReport,
+  getUpdatesAndCommits
 };
