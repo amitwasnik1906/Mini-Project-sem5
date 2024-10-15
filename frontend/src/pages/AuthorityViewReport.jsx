@@ -1,46 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReportData from '../components/Reportdata';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import UpdatesAndCommits from '../components/UpdatesAndCommits';
 
 function AuthorityViewReport({ user }) {
   // Initialize state for form data
-  const [status, setStatus] = useState('Pending');
   const [updates, setUpdates] = useState('');
+  const {id} = useParams()
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
     const formData = {
-      status,
       updates,
     };
 
     console.log(formData);
-    // Add logic here to handle form submission, like making a POST request to update the report.
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${user?.refreshToken}`,
+        },
+      };
+
+      const { data } = await axios.post("http://localhost:4000/api/v1/authority/give-updates", {reportId: id, msg: updates}, config)
+
+      alert("Updates Sent Successfully");
+      setUpdates("")
+    } catch (error) {
+      alert(error.response.data.message)
+    }
   };
+
+  useEffect(()=>{
+    
+  }, [])
 
   return (
     <div>
       <ReportData user={user} />
 
+      <UpdatesAndCommits user = {user}/>
+
       <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Status Selector */}
-          <div className="flex flex-col space-y-4">
-            <label className="text-lg font-semibold text-gray-700" htmlFor="status">
-              Change Status
-            </label>
-            <select
-              id="status"
-              name="status"
-              value={status}
-              onChange={(e) => setStatus(e.target.value)}
-              className="p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-              <option value="Pending">Pending</option>
-              <option value="Under Investigation">Under Investigation</option>
-              <option value="Resolved">Resolved</option>
-            </select>
-          </div>
 
           {/* Updates Input */}
           <div className="flex flex-col space-y-4">
