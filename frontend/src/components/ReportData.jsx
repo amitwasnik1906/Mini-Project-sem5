@@ -72,7 +72,7 @@ const ReportData = ({ user }) => {
         <p><strong>Location Of Incident:</strong> {reportData.incidentLocation}</p>
         <p><strong>State:</strong> {reportData.incidentState}</p>
         <p><strong>City:</strong> {reportData.incidentCity}</p>
-        <p><strong>Date Of Incident:</strong> {reportData.incidentDate}</p>
+        <p><strong>Date Of Incident:</strong>{new Date(reportData.incidentDate).toLocaleDateString()} </p>
       </div>
       <p className="mb-6"><strong>Detailed Description:</strong> {reportData.description}</p>
 

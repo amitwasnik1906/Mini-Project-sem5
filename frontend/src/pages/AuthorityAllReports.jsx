@@ -78,6 +78,11 @@ const AuthorityAllReports = ({ user }) => {
                     >
                       View
                     </button>
+                    <div className=''>
+                      {
+                        report.seen ? "Seen" : "Not Seen"
+                      }
+                    </div>
                   </td>
                 </tr>
               ))
