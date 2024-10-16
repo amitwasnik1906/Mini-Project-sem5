@@ -2,6 +2,7 @@ import { Authority } from "../models/authorityModel.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import ApiError from "../utils/ApiError.js";
 import { Report } from "../models/reportModel.js";
+import { Updates } from "../models/updatesModel.js";
 
 const generateRefreshToken = async (authorityId) => {
   try {
@@ -140,9 +141,17 @@ const getSingleReport = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Unauthorized access!!");
   }
 
-  const report = await Report.findById(reportId);
+  let report = await Report.findById(reportId);
   if (!report) {
     throw new ApiError(404, "Report does not exists");
+  }
+
+  if(report.seen === false){
+    report = await Report.findByIdAndUpdate(
+      reportId,
+      { seen: true },
+      { new: true, runValidators: true }
+    );
   }
 
   res.status(200).json({
@@ -202,6 +211,51 @@ const checkAuthority = asyncHandler(async (req, res) => {
   });
 })
 
+// give Updates on report
+const giveUpdatesOnReport = asyncHandler(async (req, res) => {
+  const {reportId, msg} = req.body;
+
+  if (req.user.role !== "authority") {
+    throw new ApiError(404, "Unauthorized access!!");
+  }
+
+  const report = await Report.findById(reportId);
+
+  if (!report) {
+    throw new ApiError(404, "Report does not exists");
+  }
+
+  const newUpdates = await Updates.create({reportId, msg, role: "authority"})
+
+  res.status(201).json({
+    success: true,
+    newUpdates
+  });
+})
+
+// get updates & commite
+const getUpdatesAndCommits = asyncHandler(async (req, res) => {
+  const { reportId } = req.params;
+
+  if (req.user.role !== "authority") {
+    throw new ApiError(404, "Unauthorized access!!");
+  }
+
+  const report = await Report.findById(reportId);
+
+  if (!report) {
+    throw new ApiError(404, "Report does not exists");
+  }
+
+  const updatesAndCommites = await Updates.find({reportId })
+
+  res.status(201).json({
+    success: true,
+    updatesAndCommites,
+  });
+
+});
+
 export {
   registerAuthority,
   loginAuthority,
@@ -210,5 +264,7 @@ export {
   getSingleReport,
   changeReportStatus,
   getAuthorityDetails,
-  checkAuthority
+  checkAuthority,
+  giveUpdatesOnReport,
+  getUpdatesAndCommits
 };

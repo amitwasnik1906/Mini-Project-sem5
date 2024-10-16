@@ -43,11 +43,11 @@ const HomePage = () => {
         initial="hidden"
         animate="visible"
         variants={fadeIn}
-        className="relative flex flex-col items-center justify-center w-full pb-4 min-h-screen text-center text-white bg-gradient-to-r from-blue-600 to-indigo-700"
+        className="relative flex flex-col items-center justify-center w-full pb-4 min-h-screen text-center text-white bg-gradient-to-r from-blue-400 to-indigo-500"
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 w-full mx-auto">
-          <div className='w-full h-3/6 flex justify-center mt-5'>
+          <div className='w-full flex justify-center mt-5'>
             <motion.img
               src="miniproject.jpg"
               alt="Hands joined together in unity"
@@ -68,9 +68,9 @@ const HomePage = () => {
             whileHover="hover"
             whileTap={{ scale: 0.95 }}
           >
-            <Link to="/abuse-report-form" className="px-8 py-3 font-bold text-blue-600 transition-all bg-white rounded-full shadow-md hover:bg-gray-100 hover:text-blue-700">
+            {/* <Link to="/abuse-report-form" className="px-8 py-3 font-bold text-blue-600 transition-all bg-white rounded-full shadow-md hover:bg-gray-100 hover:text-blue-700">
               Start Your Report <FaArrowRight className="inline ml-2" />
-            </Link>
+            </Link> */}
           </motion.div>
         </div>
       </motion.section>
