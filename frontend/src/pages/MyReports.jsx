@@ -1,13 +1,15 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const MyReports = ({ user }) => {
   const [reports, setReports] = useState([]);
-  const navigate = useNavigate()
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const getMyReports = async () => {
     try {
+      setLoading(true);
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -15,16 +17,18 @@ const MyReports = ({ user }) => {
         },
       };
 
-      const { data } = await axios.get(`http://localhost:4000/api/v1/user/submited-reports/${user?._id}`, config);
-
+      const { data } = await axios.get(
+        `http://localhost:4000/api/v1/user/submited-reports/${user?._id}`,
+        config
+      );
       setReports(data.reports);
-
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  // Fetch report data when the component mounts
   useEffect(() => {
     if (user) {
       getMyReports();
@@ -32,75 +36,135 @@ const MyReports = ({ user }) => {
   }, [user]);
 
   const handleViewReport = (reportId) => {
-    navigate(`/report/${reportId}`)
+    navigate(`/report/${reportId}`);
   };
 
-  return (
-    <>
-      {
-        !user ? <div className="flex items-center justify-center min-h-screen">
-          <h1 className="text-xl font-bold text-gray-700">Please sign in to access this page</h1>
-        </div> :
-          <div className="max-w-6xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-lg">
-            <h1 className="text-2xl font-bold mb-6 text-center">My Reports</h1>
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+        <div className="w-16 h-16 mb-4 text-4xl">🔒</div>
+        <h1 className="mb-2 text-2xl font-bold text-gray-700">Access Restricted</h1>
+        <p className="text-gray-500">Please sign in to view your reports</p>
+      </div>
+    );
+  }
 
+  return (
+    <div className="min-h-screen px-4 py-8 bg-gray-50 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        {/* Header Section */}
+        <div className="mb-8">
+          <h1 className="mb-2 text-3xl font-bold text-center text-gray-900">My Reports</h1>
+          <p className="text-center text-gray-600">Track and manage your submitted reports</p>
+        </div>
+
+        {/* Stats Section */}
+        <div className="grid grid-cols-1 gap-4 mb-8 md:grid-cols-3">
+          <div className="p-6 bg-white rounded-lg shadow-sm">
+            <div className="text-lg font-semibold text-gray-600">Total Reports</div>
+            <div className="text-3xl font-bold text-gray-900">{reports.length}</div>
+          </div>
+          <div className="p-6 bg-white rounded-lg shadow-sm">
+            <div className="text-lg font-semibold text-gray-600">Resolved</div>
+            <div className="text-3xl font-bold text-green-600">
+              {reports.filter(r => r.status === 'Resolved').length}
+            </div>
+          </div>
+          <div className="p-6 bg-white rounded-lg shadow-sm">
+            <div className="text-lg font-semibold text-gray-600">Pending</div>
+            <div className="text-3xl font-bold text-yellow-600">
+              {reports.filter(r => r.status !== 'Resolved').length}
+            </div>
+          </div>
+        </div>
+
+        {/* Reports Table */}
+        <div className="overflow-hidden bg-white rounded-lg shadow-sm">
+          {loading ? (
+            <div className="flex items-center justify-center h-64">
+              <div className="w-16 h-16 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+            </div>
+          ) : reports.length > 0 ? (
             <div className="overflow-x-auto">
-              <table className="table-auto w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-gray-200 text-gray-700">
-                    <th className="w-1/5 px-4 py-2">Name</th>
-                    <th className="w-1/5 px-4 py-2">Abuse Type</th>
-                    <th className="w-2/5 px-4 py-2">Incident Location</th>
-                    <th className="w-1/5 px-4 py-2">Status</th>
-                    <th className="w-1/5 px-4 py-2">Date</th>
-                    <th className="w-1/5 px-4 py-2 text-center">Actions</th>
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                      Victim Name
+                    </th>
+                    <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                      Abuse Type
+                    </th>
+                    <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                      Location
+                    </th>
+                    <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                      Status
+                    </th>
+                    <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                      Date
+                    </th>
+                    <th className="px-6 py-4 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
-                <tbody>
-                  {reports.length > 0 ? (
-                    reports.map((report) => (
-                      <tr key={report._id} className="border-b hover:bg-gray-100">
-                        <td className="px-4 py-2">{report.victimName}</td>
-                        <td className="px-4 py-2">{report.abuseType}</td>
-                        <td className="px-4 py-2">{report.incidentLocation}</td>
-                        <td className="px-4 py-2">
-                          <span
-                            className={`px-2 py-1 rounded ${report.status === 'Resolved'
-                              ? 'bg-green-200 text-green-800'
-                              : report.status === 'Under Investigation'
-                                ? 'bg-yellow-200 text-yellow-800'
-                                : 'bg-red-200 text-red-800'
-                              }`}
-                          >
-                            {report.status}
-                          </span>
-                        </td>
-                        <td className="px-4 py-2">{new Date(report.incidentDate).toLocaleDateString()}</td>
-                        <td className="px-4 py-2 text-center">
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {reports.map((report) => (
+                    <tr key={report._id} className="transition-colors hover:bg-gray-50">
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-gray-900">{report.victimName}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-500">{report.abuseType}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-500">{report.incidentLocation}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full
+                          ${report.status === 'Resolved'
+                            ? 'bg-green-100 text-green-800'
+                            : report.status === 'Under Investigation'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                          {report.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-500">
+                          {new Date(report.incidentDate).toLocaleDateString()}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex flex-col gap-2">
                           <button
-                            className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700"
                             onClick={() => handleViewReport(report._id)}
+                            className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                           >
-                            View
+                            View Details
                           </button>
-                          <div className=''>
-                            {
-                              report.seen ? "Seen" : "Not Seen"
-                            }
-                          </div>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="6" className="text-center py-4">No reports found.</td>
+                          <span className={`text-xs ${report.seen ? 'text-green-600' : 'text-gray-500'}`}>
+                            {report.seen ? '✓ Seen by Authority' : 'Pending Review'}
+                          </span>
+                        </div>
+                      </td>
                     </tr>
-                  )}
+                  ))}
                 </tbody>
               </table>
             </div>
-          </div>
-      } </>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-64">
+              <div className="mb-4 text-4xl">📊</div>
+              <h3 className="mb-1 text-lg font-medium text-gray-900">No Reports Found</h3>
+              <p className="text-gray-500">You haven't submitted any reports yet</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 
