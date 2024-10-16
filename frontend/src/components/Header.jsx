@@ -59,12 +59,7 @@ function Header({ user, setUser }) {
 
       {/* Profile Button & Logout */}
       <div className="flex items-center space-x-4 header__right">
-        {user && (
-          <div className="flex items-center justify-center w-10 h-10 font-bold text-white bg-blue-600 rounded-full">
-            {/* Initials of the user */}
-            {user.name?.charAt(0).toUpperCase()}
-          </div>
-        )}
+        
 
         {!user ? (
           <Link to="/login">
