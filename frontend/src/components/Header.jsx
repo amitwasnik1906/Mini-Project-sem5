@@ -16,61 +16,68 @@ function Header({ user, setUser }) {
       };
       axios.get("http://localhost:4000/api/v1/user/logout", config)
       Cookies.remove('refreshToken');
-      setUser(null)
+      setUser(null);
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   useEffect(() => {
     console.log(user);
+  }, [user]);
 
-  }, [user])
   return (
-    <header className="header flex items-center justify-between px-6 py-2 shadow-md">
+    <header className="flex items-center justify-between px-6 py-2 shadow-md header">
       {/* Logo Section */}
       <div className="header__logo">
         <img src="" alt="" className="w-12 h-12" />
       </div>
 
       {/* Navigation Links */}
-      <nav className="header__content space-x-6">
-        <Link to="/" className="hover:text-indigo-400 transition-colors duration-300">
+      <nav className="space-x-6 header__content">
+        <Link to="/" className="transition-colors duration-300 hover:text-indigo-400">
           <span>Home</span>
         </Link>
         {
           !user?.isAuthority &&
           <>
-            <Link to="/abuse-report-form" className="hover:text-indigo-400 transition-colors duration-300">
+            <Link to="/abuse-report-form" className="transition-colors duration-300 hover:text-indigo-400">
               <span>Submit Report</span>
             </Link>
-            <Link to="/my-reports" className="hover:text-indigo-400 transition-colors duration-300">
+            <Link to="/my-reports" className="transition-colors duration-300 hover:text-indigo-400">
               <span>My Report</span>
             </Link>
           </>
         }
         {
           user?.isAuthority &&
-          <Link to="/authority-all-reports" className="hover:text-indigo-400 transition-colors duration-300">
+          <Link to="/authority-all-reports" className="transition-colors duration-300 hover:text-indigo-400">
             <span>All Reports</span>
           </Link>
         }
       </nav>
 
-      {/* Login/Signup Button */}
-      <div className="header__right">
-        {!user ? <Link to="/login">
-          <button className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded transition-colors duration-300">
-            Login/Signup
-          </button>
-        </Link>
-          :
-          <button onClick={handleLogout} className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded transition-colors duration-300">
+      {/* Profile Button & Logout */}
+      <div className="flex items-center space-x-4 header__right">
+        {user && (
+          <div className="flex items-center justify-center w-10 h-10 font-bold text-white bg-blue-600 rounded-full">
+            {/* Initials of the user */}
+            {user.name?.charAt(0).toUpperCase()}
+          </div>
+        )}
+
+        {!user ? (
+          <Link to="/login">
+            <button className="px-4 py-2 font-semibold text-white transition-colors duration-300 bg-indigo-500 rounded hover:bg-indigo-600">
+              Login/Signup
+            </button>
+          </Link>
+        ) : (
+          <button onClick={handleLogout} className="px-4 py-2 font-semibold text-white transition-colors duration-300 bg-indigo-500 rounded hover:bg-indigo-600">
             Logout
           </button>
-        }
+        )}
       </div>
-
     </header>
   );
 }
