@@ -120,9 +120,9 @@ const AbuseReportForm = ({ user }) => {
           </div>
           :
 
-          <form className="max-w-xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-4" onSubmit={handleSubmit}>
+          <form className="max-w-xl p-6 mx-auto mt-4 bg-white rounded-lg shadow-lg" onSubmit={handleSubmit}>
             {/* Victim's Info Section */}
-            <h2 className="text-xl font-semibold mb-4">Victim's Info</h2>
+            <h2 className="mb-4 text-xl font-semibold">Victim's Info</h2>
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
                 <label htmlFor="victimName" className="block mb-2">Victim's Name</label>
@@ -133,7 +133,7 @@ const AbuseReportForm = ({ user }) => {
                   value={formData.victimName}
                   onChange={handleChange}
                   placeholder="Name Of Victim"
-                  className="p-2 border border-gray-300 rounded w-full"
+                  className="w-full p-2 border border-gray-300 rounded"
                 />
                 {errors.victimName && <span className="text-red-500">{errors.victimName}</span>}
               </div>
@@ -144,7 +144,7 @@ const AbuseReportForm = ({ user }) => {
                   id="abuseType"
                   value={formData.abuseType}
                   onChange={handleChange}
-                  className="p-2 border border-gray-300 rounded w-full"
+                  className="w-full p-2 border border-gray-300 rounded"
                 >
                   <option value="">Select Abuse Type</option>
                   <option value="physical">Physical Abuse</option>
@@ -161,7 +161,7 @@ const AbuseReportForm = ({ user }) => {
                   id="gender"
                   value={formData.gender}
                   onChange={handleChange}
-                  className="p-2 border border-gray-300 rounded w-full"
+                  className="w-full p-2 border border-gray-300 rounded"
                 >
                   <option value="">Select Gender</option>
                   <option value="male">Male</option>
@@ -179,7 +179,7 @@ const AbuseReportForm = ({ user }) => {
                   value={formData.age}
                   onChange={handleChange}
                   placeholder="Age Of Victim"
-                  className="p-2 border border-gray-300 rounded w-full"
+                  className="w-full p-2 border border-gray-300 rounded"
                 />
                 {errors.age && <span className="text-red-500">{errors.age}</span>}
               </div>
@@ -192,14 +192,14 @@ const AbuseReportForm = ({ user }) => {
                   value={formData.phoneNumber}
                   onChange={handleChange}
                   placeholder="Enter phoneNumber number"
-                  className="p-2 border border-gray-300 rounded w-full"
+                  className="w-full p-2 border border-gray-300 rounded"
                 />
                 {errors.phoneNumber && <span className="text-red-500">{errors.phoneNumber}</span>}
               </div>
             </div>
 
             {/* Incident Info Section */}
-            <h2 className="text-xl font-semibold mb-4">Incident Info</h2>
+            <h2 className="mb-4 text-xl font-semibold">Incident Info</h2>
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div>
                 <label htmlFor="incidentLocation" className="block mb-2">Location of Incident</label>
@@ -210,7 +210,7 @@ const AbuseReportForm = ({ user }) => {
                   value={formData.incidentLocation}
                   onChange={handleChange}
                   placeholder="Location Of Incident"
-                  className="p-2 border border-gray-300 rounded w-full"
+                  className="w-full p-2 border border-gray-300 rounded"
                 />
                 {errors.incidentLocation && <span className="text-red-500">{errors.incidentLocation}</span>}
               </div>
@@ -221,7 +221,7 @@ const AbuseReportForm = ({ user }) => {
                   id="incidentState"
                   value={formData.incidentState}
                   onChange={handleChange}
-                  className="p-2 border border-gray-300 rounded w-full"
+                  className="w-full p-2 border border-gray-300 rounded"
                 >
                   <option value="">Select State</option>
                   {states.map((state) => (
@@ -239,7 +239,7 @@ const AbuseReportForm = ({ user }) => {
                   id="incidentCity"
                   value={formData.incidentCity}
                   onChange={handleChange}
-                  className="p-2 border border-gray-300 rounded w-full"
+                  className="w-full p-2 border border-gray-300 rounded"
                 >
                   <option value="">Select City</option>
                   {cities.map((city) => (
@@ -258,7 +258,7 @@ const AbuseReportForm = ({ user }) => {
                   id="incidentDate"
                   value={formData.incidentDate}
                   onChange={handleChange}
-                  className="p-2 border border-gray-300 rounded w-full"
+                  className="w-full p-2 border border-gray-300 rounded"
                 />
                 {errors.incidentDate && <span className="text-red-500">{errors.incidentDate}</span>}
               </div>
@@ -270,7 +270,7 @@ const AbuseReportForm = ({ user }) => {
                   value={formData.description}
                   onChange={handleChange}
                   placeholder="Describe the incident"
-                  className="p-2 border border-gray-300 rounded w-full"
+                  className="w-full p-2 border border-gray-300 rounded"
                 />
                 {errors.description && <span className="text-red-500">{errors.description}</span>}
               </div>
@@ -287,7 +287,7 @@ const AbuseReportForm = ({ user }) => {
                 className="mr-2"
               />
               <label htmlFor="consent">I consent to sharing this information with the authorities</label>
-              {errors.consent && <span className="text-red-500 block">{errors.consent}</span>}
+              {errors.consent && <span className="block text-red-500">{errors.consent}</span>}
             </div>
 
             {/* Legal Disclaimer Section */}
@@ -303,12 +303,12 @@ const AbuseReportForm = ({ user }) => {
               <label htmlFor="legalDisclaimer">
                 I accept the legal terms and conditions associated with filing this report
               </label>
-              {errors.legalDisclaimer && <span className="text-red-500 block">{errors.legalDisclaimer}</span>}
+              {errors.legalDisclaimer && <span className="block text-red-500">{errors.legalDisclaimer}</span>}
             </div>
 
             <button
               type="submit"
-              className="bg-blue-500 text-white p-3 rounded w-full hover:bg-blue-600"
+              className="w-full p-3 text-white bg-blue-500 rounded hover:bg-blue-600"
             >
               Submit Report
             </button>
