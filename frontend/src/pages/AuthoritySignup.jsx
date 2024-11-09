@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Country, State, City } from 'country-state-city';
 import axios from 'axios';
+import {useNavigate} from "react-router-dom"
 
 function AuthoritySignup() {
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [selectedState, setSelectedState] = useState('');
+    const navigate = useNavigate()
 
     const [formData, setFormData] = useState({
         name: '',
@@ -77,15 +79,16 @@ function AuthoritySignup() {
                 state: '',
             })
             alert("User Register Successfully")
+            navigate("/authority/login")
         } catch (error) {
             alert(error.response.data.message)
         }
     }
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <form className="bg-white p-8 rounded-lg shadow-lg w-1/3">
-                <h2 className="text-2xl mb-6 font-semibold text-center">Authority Signup</h2>
+        <div className="flex items-center justify-center h-screen">
+            <form className="w-1/3 p-8 bg-white rounded-lg shadow-lg">
+                <h2 className="mb-6 text-2xl font-semibold text-center">Authority Signup</h2>
 
                 <input
                     type="text"
@@ -93,7 +96,7 @@ function AuthoritySignup() {
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="Full Name"
-                    className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                    className="block w-full p-2 mb-4 border border-gray-300 rounded"
                     required
                 />
 
@@ -103,7 +106,7 @@ function AuthoritySignup() {
                     value={formData.email}
                     onChange={handleInputChange}
                     placeholder="Email"
-                    className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                    className="block w-full p-2 mb-4 border border-gray-300 rounded"
                     required
                 />
 
@@ -113,7 +116,7 @@ function AuthoritySignup() {
                     value={formData.password}
                     onChange={handleInputChange}
                     placeholder="Password"
-                    className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                    className="block w-full p-2 mb-4 border border-gray-300 rounded"
                     required
                 />
 
@@ -123,7 +126,7 @@ function AuthoritySignup() {
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
                     placeholder="Confirm Password"
-                    className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                    className="block w-full p-2 mb-4 border border-gray-300 rounded"
                     required
                 />
 
@@ -132,14 +135,14 @@ function AuthoritySignup() {
                     value={formData.address}
                     onChange={handleInputChange}
                     placeholder="Address"
-                    className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                    className="block w-full p-2 mb-4 border border-gray-300 rounded"
                 />
 
                 <select
                     name="state"
                     value={formData.state}
                     onChange={handleStateChange}
-                    className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                    className="block w-full p-2 mb-4 border border-gray-300 rounded"
                 >
                     <option value="">Select State</option>
                     {states.map((state) => (
@@ -153,7 +156,7 @@ function AuthoritySignup() {
                     name="city"
                     value={formData.city}
                     onChange={handleCityChange}
-                    className="block w-full mb-4 p-2 border border-gray-300 rounded"
+                    className="block w-full p-2 mb-4 border border-gray-300 rounded"
                 >
                     <option value="">Select City</option>
                     {cities.map((city) => (
@@ -163,7 +166,7 @@ function AuthoritySignup() {
                     ))}
                 </select>
 
-                <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded" onClick={(e) => handleSubmit(e)}>
+                <button type="submit" className="w-full p-2 text-white bg-blue-500 rounded" onClick={(e) => handleSubmit(e)}>
                     Signup
                 </button>
             </form>

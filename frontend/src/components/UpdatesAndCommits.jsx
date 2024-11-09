@@ -54,7 +54,7 @@ const UpdatesAndCommits = ({ user }) => {
   }
 
   return (
-    <div className="max-w-3xl p-6 mx-auto mt-10 mb-6 bg-white rounded-lg shadow-lg">
+    <div className="max-w-3xl mx-auto mt-10 mb-6 bg-white">
       <h2 className="mb-6 text-2xl font-bold text-center text-gray-800">Updates and Commits</h2>
       {updatesAndCommits.map((unc) => (
         <div 

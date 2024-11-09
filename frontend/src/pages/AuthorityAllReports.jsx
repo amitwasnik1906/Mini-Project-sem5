@@ -7,6 +7,7 @@ const AuthorityAllReports = ({ user }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState('All'); // New state for status filter
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
   const navigate = useNavigate();
 
@@ -44,11 +45,22 @@ const AuthorityAllReports = ({ user }) => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredReports = reports.filter(report =>
-    report.victimName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    report.abuseType.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    report.incidentLocation.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleStatusFilter = (e) => {
+    setStatusFilter(e.target.value);
+  };
+
+  const filteredReports = useMemo(() => {
+    return reports.filter(report => {
+      const matchesSearch = 
+        report.victimName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        report.abuseType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        report.incidentLocation.toLowerCase().includes(searchTerm.toLowerCase());
+      
+      const matchesStatus = statusFilter === 'All' || report.status === statusFilter;
+      
+      return matchesSearch && matchesStatus;
+    });
+  }, [reports, searchTerm, statusFilter]);
 
   const handleSort = (key) => {
     let direction = 'ascending';
@@ -76,8 +88,8 @@ const AuthorityAllReports = ({ user }) => {
 
   const reportSummary = useMemo(() => {
     const totalReports = reports.length;
-    const pendingReports = reports.filter(report => report.status !== 'Resolved').length;
-    const resolvedReports = totalReports - pendingReports;
+    const pendingReports = reports.filter(report => report.status === 'Under Investigation').length;
+    const resolvedReports = reports.filter(report => report.status === 'Resolved').length;
     return { totalReports, pendingReports, resolvedReports };
   }, [reports]);
 
@@ -122,14 +134,24 @@ const AuthorityAllReports = ({ user }) => {
         </div>
       </div>
 
-      <div className="mb-6">
+      <div className="flex flex-col gap-4 mb-6 md:flex-row">
         <input
           type="text"
           placeholder="Search reports..."
-          className="w-full px-4 py-2 transition duration-300 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="flex-1 px-4 py-2 transition duration-300 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={searchTerm}
           onChange={handleSearch}
         />
+        <select
+          value={statusFilter}
+          onChange={handleStatusFilter}
+          className="px-4 py-2 text-gray-700 transition duration-300 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="All">All Status</option>
+          <option value="Pending">Pending</option>
+          <option value="Under Investigation">Under Investigation</option>
+          <option value="Resolved">Resolved</option>
+        </select>
       </div>
 
       <div className="overflow-hidden bg-white rounded-lg shadow-md">
