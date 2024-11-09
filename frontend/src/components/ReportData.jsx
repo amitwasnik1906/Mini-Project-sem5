@@ -78,16 +78,16 @@ const ReportData = ({ user }) => {
   }, [reportData])
 
   if (!reportData) {
-    return <p className="text-center mt-10">Loading report...</p>;
+    return <p className="mt-10 text-center">Loading report...</p>;
   }
 
   return (
     <>
-      <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10 mb-6">
-        <h1 className="text-2xl font-bold mb-6 text-center">Your Submitted Report</h1>
+      <div className="max-w-3xl mx-auto mt-10 mb-6 bg-white ">
+        <h1 className="mb-6 text-2xl font-bold text-center">Your Submitted Report</h1>
 
         {/* Victim's Info Section */}
-        <h2 className="text-xl font-semibold mb-4 text-blue-600">Victim's Info</h2>
+        <h2 className="mb-4 text-xl font-semibold text-blue-600">Victim's Info</h2>
         <div className="grid grid-cols-2 gap-4 mb-6">
           <p><strong>Name Of Victim:</strong> {reportData.victimName}</p>
           <p><strong>Phone Number:</strong> {reportData.victimPhone}</p> {/* Added Phone Number */}
@@ -97,7 +97,7 @@ const ReportData = ({ user }) => {
         </div>
 
         {/* Incident Info Section */}
-        <h2 className="text-xl font-semibold mb-4 text-blue-600">Incident Info</h2>
+        <h2 className="mb-4 text-xl font-semibold text-blue-600">Incident Info</h2>
         <div className="grid grid-cols-2 gap-4 mb-6">
           <p><strong>Location Of Incident:</strong> {reportData.incidentLocation}</p>
           <p><strong>State:</strong> {reportData.incidentState}</p>
@@ -138,7 +138,7 @@ const ReportData = ({ user }) => {
           isAuthority &&
         <>
           {/* Status Selector */}
-          < div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+          < div className="max-w-3xl p-6 mx-auto mt-10 bg-white rounded-lg shadow-lg">
             <div className="flex flex-col space-y-4">
               <label className="text-lg font-semibold text-gray-700" htmlFor="status">
                 Change Status
@@ -158,7 +158,7 @@ const ReportData = ({ user }) => {
             <button
               onClick={changeStatus}
               type="submit"
-              className="w-full mt-4 px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 mt-4 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Change Status
             </button>

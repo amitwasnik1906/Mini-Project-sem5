@@ -41,10 +41,10 @@ function Report({ user }) {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="px-4 py-8 mx-auto max-w-7xl">
+      <div className="mx-auto max-w-7xl">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
-          {/* Main Report Section */}
-          <div className="space-y-6 lg:col-span-8">
+          {/* Main Report Section - Reduced width */}
+          <div className="space-y-6 lg:col-span-7">
             {/* Report Details Card */}
             <div className="overflow-hidden bg-white border-2 rounded-lg shadow-md border-slate-200">
               <div className="px-6 py-4 border-b-2 border-slate-200 bg-slate-50">
@@ -115,8 +115,8 @@ function Report({ user }) {
             </div>
           </div>
 
-          {/* Sidebar - Case Updates */}
-          <div className="space-y-6 lg:col-span-4">
+          {/* Sidebar - Case Updates - Increased width */}
+          <div className="space-y-6 lg:col-span-5">
             <div className="overflow-hidden bg-white border-2 rounded-lg shadow-md border-slate-200">
               <div className="px-6 py-4 border-b-2 border-slate-200 bg-slate-50">
                 <h2 className="text-lg font-medium text-slate-800">Case Updates</h2>
@@ -126,24 +126,24 @@ function Report({ user }) {
               </div>
             </div>
 
-            {/* Quick Resources Card */}
+            {/* Quick Resources Card - Removed anchor tags */}
             <div className="overflow-hidden bg-white border-2 rounded-lg shadow-md border-slate-200">
               <div className="px-6 py-4 border-b-2 border-slate-200 bg-slate-50">
                 <h2 className="text-lg font-medium text-slate-800">Resources</h2>
               </div>
               <div className="p-6">
                 <ul className="space-y-3 text-sm">
-                  <li className="flex items-center text-teal-600 hover:text-teal-700">
+                  <li className="flex items-center text-teal-600">
                     <Shield className="mr-2" size={16} />
-                    <a href="#" className="hover:underline">Response Guidelines</a>
+                    <span>Response Guidelines</span>
                   </li>
-                  <li className="flex items-center text-teal-600 hover:text-teal-700">
+                  <li className="flex items-center text-teal-600">
                     <Shield className="mr-2" size={16} />
-                    <a href="#" className="hover:underline">Support Services Directory</a>
+                    <span>Support Services Directory</span>
                   </li>
-                  <li className="flex items-center text-teal-600 hover:text-teal-700">
+                  <li className="flex items-center text-teal-600">
                     <Shield className="mr-2" size={16} />
-                    <a href="#" className="hover:underline">Emergency Contacts</a>
+                    <span>Emergency Contacts</span>
                   </li>
                 </ul>
               </div>

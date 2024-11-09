@@ -22,6 +22,7 @@ const AbuseReportForm = ({ user }) => {
   const [errors, setErrors] = useState({});
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   // Fetch states for India when the component mounts
   useEffect(() => {
@@ -77,6 +78,7 @@ const AbuseReportForm = ({ user }) => {
 
     if (validateForm()) {
       console.log(formData);
+      setLoading(true)
       try {
         const config = {
           headers: {
@@ -102,8 +104,10 @@ const AbuseReportForm = ({ user }) => {
           consent: false,
           legalDisclaimer: false,
         })
+        setLoading(false)
         alert("Form Submitted Successfully");
       } catch (error) {
+        setLoading(false)
         alert(error.response.data.message)
       }
     } else {
@@ -308,9 +312,11 @@ const AbuseReportForm = ({ user }) => {
 
             <button
               type="submit"
-              className="w-full p-3 text-white bg-blue-500 rounded hover:bg-blue-600"
+              className={`w-full p-3 text-white bg-blue-500 rounded hover:bg-blue-600 ${loading ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+              disabled={loading}
             >
-              Submit Report
+              {loading ? "Submitting..." : "Submit Report"}
             </button>
           </form>
       }</>
