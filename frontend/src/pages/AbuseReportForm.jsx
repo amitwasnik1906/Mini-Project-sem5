@@ -119,9 +119,15 @@ const AbuseReportForm = ({ user }) => {
     <>
       {
         !user ?
-          <div className="flex items-center justify-center min-h-screen">
-            <h1 className="text-xl font-bold text-gray-700">Please sign in to access this page</h1>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 animate-fadeIn">
+        <div className="p-8 transition-all duration-300 transform bg-white shadow-2xl rounded-xl hover:scale-105">
+          <div className="flex items-center justify-center w-20 h-20 mx-auto mb-6 text-5xl rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 animate-bounce">
+            🔒
           </div>
+          <h1 className="mb-4 text-3xl font-bold text-gray-800 animate-slideDown">Access Restricted</h1>
+          <p className="text-gray-600 animate-slideUp">Please sign in to Fill the Form </p>
+        </div>
+      </div>
           :
 
           <form className="max-w-xl p-6 mx-auto mt-4 bg-white rounded-lg shadow-lg" onSubmit={handleSubmit}>

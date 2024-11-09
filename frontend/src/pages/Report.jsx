@@ -152,18 +152,6 @@ function Report({ user }) {
         </div>
       </div>
 
-      <style jsx>{`
-        @keyframes slideUp {
-          from { 
-            opacity: 0;
-            transform: translateY(0.5rem);
-          }
-          to { 
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </div>
   );
 }
