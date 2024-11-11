@@ -30,7 +30,7 @@ function Header({ user, setUser }) {
     <header className="flex items-center justify-between px-6 py-2 shadow-md header">
       {/* Logo Section */}
       <div className="header__logo">
-        <img src="" alt="" className="w-12 h-12" />
+        <img src="logo.jpg" alt="" className="w-full h-12" />
       </div>
 
       {/* Navigation Links */}

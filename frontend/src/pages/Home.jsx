@@ -244,7 +244,10 @@ const HomePage = () => {
             <div>
               <h4 className="mb-1 text-lg font-semibold text-gray-800">Speak Without Fear</h4>
               <p className="text-sm text-gray-600">
-                Raise your voice, break the silence, and stand strong against injustice — your courage can create change.
+                Raise your voice, break the silence, and stand strong against injustice 
+              </p>
+              <p className="text-sm text-gray-600">
+              — your courage can create change.
               </p>
             </div>
           </motion.div>
